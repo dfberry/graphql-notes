@@ -1,0 +1,24 @@
+{
+  "name": "graphql-notes",
+  "version": "1.0.0",
+  "description": "* [Generate GraphQL Types with Apollo Codegen](https://www.apollographql.com/blog/tooling/apollo-codegen/typescript-graphql-code-generator-generate-graphql-types/) * [Express with GraphQL](https://www.apollographql.com/blog/backend/using-express-with-graphql-server-node-js/)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dfberry/graphql-notes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dfberry/graphql-notes/issues"
+  },
+  "homepage": "https://github.com/dfberry/graphql-notes#readme",
+  "dependencies": {
+    "apollo-server-express": "^3.10.1",
+    "express": "^4.18.1"
+  }
+}
