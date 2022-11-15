@@ -347,3 +347,7 @@ query IntrospectionQuery {
 ## Facebook data
 
 - [Playground](https://developers.facebook.com/tools/explorer)
+
+## GraphQL in Action book
+
+* [GitHub repo](https://github.com/jscomplete/graphql-in-action)
