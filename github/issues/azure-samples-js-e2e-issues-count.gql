@@ -1,0 +1,13 @@
+query { 
+  repository(owner:"Azure-Samples", name:"js-e2e") { 
+    issues {
+      totalCount
+    }
+    open: issues(states:OPEN) {
+      totalCount
+    }
+    closed: issues(states:CLOSED) {
+      totalCount
+    }
+  }
+}

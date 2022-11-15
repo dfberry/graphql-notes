@@ -1,0 +1,19 @@
+{
+  organization(login: ORGANIZATION_NAME) {
+    repositories(first: 100, privacy: PRIVATE, orderBy: {field: CREATED_AT, direction: ASC}) {
+      edges {
+        node {
+          name
+          url
+          issues {totalCount}
+          pullRequests { totalCount }
+          stargazers { totalCount }
+          forkCount
+          createdAt
+          updatedAt
+        }
+        cursor
+      }
+    }
+  }
+}

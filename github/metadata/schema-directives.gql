@@ -1,0 +1,14 @@
+query AllDirectives {
+  __schema {
+    directives {
+      name
+      description
+      locations
+      args {
+        name
+        description
+        defaultValue
+      }
+    }
+  }
+}

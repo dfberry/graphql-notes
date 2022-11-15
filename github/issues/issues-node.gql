@@ -1,0 +1,13 @@
+nodes {
+        nameWithOwner
+        issues(states: [OPEN, CLOSED], last: 100) {
+          nodes {
+            title
+          }
+          pageInfo {
+            startCursor
+            hasNextPage
+            endCursor
+          }
+        }
+      }

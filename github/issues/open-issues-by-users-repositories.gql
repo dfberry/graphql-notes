@@ -1,0 +1,23 @@
+query {
+  user(login: "dfberry") {
+    repositories(affiliations: [OWNER], last: 10) {
+      edges {
+        node {
+          name
+          issues(states: [OPEN], last: 10) {
+            edges {
+              node {
+                createdAt
+                title
+                url
+                repository {
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

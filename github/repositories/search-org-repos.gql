@@ -1,0 +1,16 @@
+# {
+#  "queryString": "org:my_org"
+#}
+
+query myOrgRepos($queryString: String!) {
+  search(query: $queryString, type: REPOSITORY, first: 10) {
+    repositoryCount
+    edges {
+      node {
+        ... on Repository {
+          name
+        }
+      }
+    }
+  }
+}

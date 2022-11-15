@@ -1,0 +1,12 @@
+{
+  "orgLogin": "Azure-Samples",
+  "fullDetails": true
+}
+
+query OrgInfo ($orgLogin: String!, $fullDetails:Boolean!){
+  organization(login: $orgLogin){
+    name
+    description
+    websiteUrl @include(if:$fullDetails)
+  }
+}

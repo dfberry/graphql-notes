@@ -1,0 +1,17 @@
+{
+  user(login: "dfberry") {
+    name
+    issues(states: [OPEN], last: 10) {
+      edges {
+        node {
+          createdAt
+          title
+          url
+          repository {
+            name
+          }
+        }
+      }
+    }
+  }
+}

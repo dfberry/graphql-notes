@@ -1,0 +1,10 @@
+{
+    __type(name: "Commit"){
+        fields{
+            name
+            args {
+                name
+            }
+        }
+    }
+}

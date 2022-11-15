@@ -1,0 +1,12 @@
+{
+  "orgLogin": "Azure-Samples",
+  "partialDetails": false
+}
+
+query OrgInfo ($orgLogin: String!, $partialDetails:Boolean!){
+  organization(login: $orgLogin){
+    name
+    description
+    websiteUrl @skip(if:$partialDetails)
+  }
+}

@@ -1,0 +1,30 @@
+query SearchMostTop10Star($queryString: String!, $number_of_repos:Int!) {
+  search(query: $queryString, type: REPOSITORY, first: $number_of_repos) {
+    repositoryCount
+    edges {
+      node {
+        ... on Repository {
+          name
+          url
+          description
+#         shortDescriptionHTML
+          repositoryTopics(first: 12) {nodes {topic {name}}}
+          primaryLanguage {name}
+          languages(first: 3) { nodes {name} }
+          releases {totalCount}
+          forkCount
+          pullRequests {totalCount}
+          stargazers {totalCount}
+          issues {totalCount}
+          createdAt
+          pushedAt
+          updatedAt
+        }
+      }
+    }
+  }
+}
+variables {
+  "queryString": "language:JavaScript stars:>10000", 
+  "number_of_repos": 3 
+}

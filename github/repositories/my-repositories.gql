@@ -1,0 +1,37 @@
+# url: https://api.github.com/graphql
+# header: Authorization bearer token
+# method: POST
+
+query {
+    viewer {
+        avatarUrl
+        login
+        resourcePath
+        url
+        bio
+        company
+        createdAt
+        location
+        followers(first: 100) {
+            nodes {
+                name
+                url
+            }
+        }
+        repositories(first: 100) {
+            nodes {
+                name
+                description
+                url
+                createdAt
+                collaborators(first: 5) {
+                    nodes {
+                        name  
+                    }
+                    totalCount
+                }
+            }
+            totalCount
+        }
+    }
+}

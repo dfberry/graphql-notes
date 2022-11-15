@@ -1,0 +1,13 @@
+{
+    repository(owner: "facebook", name: "graphql"){
+        issues(first:10){
+            nodes{
+                title
+                createdAt
+                author{
+                    login
+                }
+            }
+        }
+    }
+}

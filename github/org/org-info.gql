@@ -1,0 +1,7 @@
+query OrgInfo{
+    organization(login: "jscomplete"){
+        name
+        description
+        websiteUrl
+    }
+}

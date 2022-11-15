@@ -1,0 +1,43 @@
+# Type queries into this side of the screen, and you will 
+# see intelligent typeaheads aware of the current GraphQL type schema, 
+# live syntax, and validation errors highlighted within the text.
+
+# We'll get you started with a simple query showing your username!
+#{
+#  "queryString": "org:Azure-Samples",
+#  "after": "Y3Vyc29yOjM="
+#}
+
+query myOrgRepos($queryString: String!, $after: String) {
+  search(query: $queryString, type: REPOSITORY, first: 3, after: $after) {
+    pageInfo {
+      startCursor
+      hasNextPage
+      endCursor
+    }
+    repositoryCount
+    edges {
+      node {
+        ... on Repository {
+          name
+          id
+          url
+          descriptionHTML
+          stargazers {
+            totalCount
+          }
+          forks {
+            totalCount
+          }
+          issues(states:[OPEN]) {
+            totalCount
+          }
+          pullRequests(states:[OPEN]) {
+            totalCount
+          }
+          updatedAt
+        }
+      }
+    }
+  }
+}

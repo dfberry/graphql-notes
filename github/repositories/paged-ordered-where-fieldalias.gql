@@ -1,0 +1,23 @@
+
+{
+  "organization": "Azure-Samples",
+  "after": "Y3Vyc29yOjM=",
+  "pageSize": 3
+}
+
+query OrgReposMegaInfoExample($organization:String!, $pageSize: Int) {
+  organization(login:$organization){
+    repositories (first: $pageSize){
+      totalCount
+      pageInfo {
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          repositoryName:name name
+        }
+      }
+    }
+  }
+}

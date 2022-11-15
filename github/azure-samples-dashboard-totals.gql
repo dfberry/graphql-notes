@@ -1,0 +1,26 @@
+query myOrgRepos($queryString: String!) {
+  search(query: $queryString, type: REPOSITORY, first: 10) {
+    repositoryCount
+    edges {
+      node {
+        ... on Repository {
+          name
+          descriptionHTML
+          stargazers {
+            totalCount
+          }
+          forks {
+            totalCount
+          }
+          issues(states:[OPEN]) {
+            totalCount
+          }
+          pullRequests(states:[OPEN]) {
+            totalCount
+          }
+          updatedAt
+        }
+      }
+    }
+  }
+}
