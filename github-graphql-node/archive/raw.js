@@ -1,4 +1,7 @@
 var axios = require('axios');
+
+require('dotenv').config();
+
 var data = JSON.stringify({
   query: `query OrgInfo {
     organization(login: "jscomplete") {
@@ -12,7 +15,7 @@ var data = JSON.stringify({
 
 var config = {
   method: 'post',
-  url: 'https://api.github.com/graphql',
+  url: process.env.GITHUB_GRAPHQL_ENDPOINT,
   headers: { 
     'Authorization': 'Bearer ' + process.env.GITHUB_PERSONAL_ACCESS_TOKEN, 
     'Content-Type': 'application/json'

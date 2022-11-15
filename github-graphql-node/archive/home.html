@@ -18,7 +18,8 @@
     }
   }`,
         });
-
+        // Use your own PAT creating in GitHub user settings, developer settings
+        const GITHUB_PERSONAL_ACCESS_TOKEN = "";
         const response = await fetch(
           'https://api.github.com/graphql',
           {
