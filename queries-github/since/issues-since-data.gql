@@ -1,0 +1,19 @@
+query($date:String) {
+  repositoryOwner(login: "adrianhall") {
+    repositories(first: 10) {
+      nodes {
+        nameWithOwner
+        issues(filterBy: {since: $date}) {
+          nodes {
+            id
+            title
+            state
+          }
+          totalCount
+        }
+      }
+    }
+  }
+}
+
+#The date gets calculated as "todays date in UTC - 1 day, then referenced to midnight" - for today, that would be "2022-11-17T00:00:00Z" and the job runs at about 00:30:00 UTC.
