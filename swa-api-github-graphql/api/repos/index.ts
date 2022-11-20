@@ -1,45 +1,28 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { getRepos } from "../lib/repos_in_org";
-import { uploadToBlob } from "../lib/upload_to_blob";
+import { processOrgList } from "../lib/save_data_to_storage";
+
+import HTTP_CODES from "http-status-enum";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<void> {
   try {
-    context.log("HTTP trigger function processed a request.");
-    const name = req.query.name || (req.body && req.body.name);
+    
+    context.log(`timer_repos begin`);
+    await processOrgList(context.log);
+    context.log(`timer_repos end`);
 
-    if (!name) {
-      context.res = {
-        status: 404 /* Defaults to 200 */,
-        body: "`name` is required param`",
-      };
-    }
-
-    //const data = await getRepos(name);
-
-    const data = {
-        "color": "blue",
-        "type": "dog"
-    }
-
-    const datetime = new Date().toISOString().replace(/:/g,"_").replace(".","_").replace("-","_");
-    const blobUrl = await uploadToBlob(
-      `org_${name}`,
-      `azure_aggregage_${datetime}.json`,
-      JSON.stringify(data)
-    );
-
-    context.res = {
-      body: blobUrl,
-    };
   } catch (err) {
-    context.res = {
-        status: 500,
-        body: err
-    }
+
+    context.log.error(err.message);
+    context.res.body = { error: `${err.message}`};
+    context.res.status = HTTP_CODES.INTERNAL_SERVER_ERROR;
+
+    context.log("Repos api completed with failure");
   }
+
+  context.log(`Repos api completed`);
 };
 
 export default httpTrigger;

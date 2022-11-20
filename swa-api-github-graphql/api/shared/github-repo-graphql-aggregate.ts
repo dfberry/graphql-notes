@@ -44,16 +44,6 @@ const QUERY_ORG_REPOS_AGGREGATE = `
     }
   `;
 
-const personal_access_token = process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
-if (!personal_access_token)
-  throw Error("missing personal access token GITHUB_PERSONAL_ACCESS_TOKEN");
-
-const GRAPHQL_URL = process.env.GITHUB_GRAPHQL_ENDPOINT;
-if (!GRAPHQL_URL) throw Error("missing GRAPHQL_URL");
-
-const QUERY = QUERY_ORG_REPOS_AGGREGATE;
-const VARIABLES = QUERY_ORG_REPOS_AGGREGATE_VARIABLES;
-
 // Assume variable for next cursor is `nextCursor`
 async function getGraphQLCursor(url, personal_access_token, query, variables) {
   // Prepare graphQL query for axios
@@ -77,9 +67,31 @@ async function getGraphQLCursor(url, personal_access_token, query, variables) {
   return response;
 }
 
-export async function getRepos(name, log) {
-  // noop instead of error
-  if (!name) return {};
+export async function getReposByOrgAggregate(orgName: string, log) {
+
+  log("getReposByOrgAggregate started");
+
+  const personal_access_token = process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
+  if (!personal_access_token){
+    log("missing personal access token GITHUB_PERSONAL_ACCESS_TOKEN");
+    throw Error("missing personal access token GITHUB_PERSONAL_ACCESS_TOKEN");
+  }
+    
+  const GRAPHQL_URL = process.env.GITHUB_GRAPHQL_ENDPOINT;
+  if (!GRAPHQL_URL){
+    log("missing GRAPHQL_URL");
+    throw Error("missing GRAPHQL_URL");
+  }
+
+  if (!orgName){
+    log("missing orgName");
+    throw Error("missing orgName");
+  }
+
+  const QUERY = QUERY_ORG_REPOS_AGGREGATE;
+  const VARIABLES = QUERY_ORG_REPOS_AGGREGATE_VARIABLES;
+
+  VARIABLES.organization = orgName;
 
   let hasNextPage = true;
   let data = [];
@@ -101,11 +113,9 @@ export async function getRepos(name, log) {
       response.data.data.organization.repositories
     ) {
       log(
-        `returned: ${response.data.data.organization.repositories.pageInfo.startCursor}-${response.data.data.organization.repositories.pageInfo.hasNextPage}-${response.data.data.organization.repositories.pageInfo.endCursor}-${response.data.data.organization.repositories.edges.length}`
+        `returned: ${response.data.data.organization.repositories.edges[0].node.repositoryName}-${response.data.data.organization.repositories.pageInfo.hasNextPage}-${response.data.data.organization.repositories.pageInfo.endCursor}-${response.data.data.organization.repositories.edges.length}`
       );
-      log(
-        `${response.data.data.organization.repositories.edges[0].node.repositoryName}`
-      );
+
       const graphQLData = response.data.data;
 
       hasNextPage = graphQLData.organization.repositories.pageInfo.hasNextPage;
@@ -121,5 +131,7 @@ export async function getRepos(name, log) {
     }
   } while (hasNextPage);
 
+  log("getReposByOrgAggregate completed");
+  log(data);
   return data;
 }

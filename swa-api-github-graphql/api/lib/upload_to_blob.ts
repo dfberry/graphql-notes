@@ -1,3 +1,4 @@
+import { dir } from "console";
 
 const { BlobServiceClient } = require('@azure/storage-blob');
 
@@ -33,21 +34,26 @@ async function createBlobFromString(containerClient, blobName, fileContentsAsStr
     return blockBlobClient.url;
   }
 
-export async function uploadToBlob(containerName, fileName, jsonData){
+export async function uploadToBlob(containerName, directoryname, fileName, jsonData, log){
 
     const connString = process.env.BLOB_STORAGE_CONNECTION_STRING;
     if (!connString) throw Error('Azure Storage Connection string not found');
 
     const blobServiceClient = BlobServiceClient.fromConnectionString(connString);
     const correctedContainerName = conformToContainerNameRules(containerName);
-    console.log(`correctedContainerName=${correctedContainerName}`);
+    log(`correctedContainerName=${correctedContainerName}`);
 
     const containerClient = blobServiceClient.getContainerClient(correctedContainerName)
     await containerClient.createIfNotExists();
 
     const upLoadOptions = {};
 
-    const blobUrl = await createBlobFromString(containerClient, fileName, JSON.stringify(jsonData), upLoadOptions);
+    if(directoryname){
+      directoryname = conformToContainerNameRules(directoryname);
+      fileName = `${directoryname}/${fileName}`;
+    }
 
+    const blobUrl = await createBlobFromString(containerClient, fileName, JSON.stringify(jsonData), upLoadOptions);
+    
     return blobUrl;
 }

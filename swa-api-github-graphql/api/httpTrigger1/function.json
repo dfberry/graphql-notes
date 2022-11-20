@@ -1,7 +1,7 @@
 {
   "bindings": [
     {
-      "authLevel": "anonymous",
+      "authLevel": "function",
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
@@ -16,6 +16,5 @@
       "name": "res"
     }
   ],
-  "functionTimeout": "00:07:00",
-  "scriptFile": "../dist/repos/index.js"
+  "scriptFile": "../dist/httpTrigger1/index.js"
 }

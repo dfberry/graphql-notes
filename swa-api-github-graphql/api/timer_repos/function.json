@@ -1,0 +1,12 @@
+{
+  "bindings": [
+    {
+      "name": "myTimer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "0 0 * * * *"
+    }
+  ],
+  "scriptFile": "../dist/timer_repos/index.js",
+  "functionTimeout": "00:10:00"
+}
