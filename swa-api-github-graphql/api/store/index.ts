@@ -1,11 +1,17 @@
 
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-
+import { isFeatureFlagEnabled } from "../shared/feature-flag";
 import HTTP_CODES from "http-status-enum";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<any> {
     
     context.log("Store api started");
+
+    if(!isFeatureFlagEnabled(process.env.FEATURE_FLAG_STORE_HTTP_TRIGGER_ENABLED)){
+        context.log(`http trigger store disabled`);
+        return
+    }
+    context.log(`http trigger store enabled`);
 
     console.log(req.headers);
 

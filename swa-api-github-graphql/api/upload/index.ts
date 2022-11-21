@@ -26,7 +26,7 @@ you should use a different npm package to handle form parsing or alter this
 existing code to have default values before using the `parse-multipart` package.
 */
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-
+import { isFeatureFlagEnabled } from "../shared/feature-flag";
 import HTTP_CODES from "http-status-enum";
 
 // Multiform management
@@ -35,6 +35,12 @@ import * as multipart from "parse-multipart";
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<any> {
     
     context.log('upload HTTP trigger function processed a request.');
+
+    if(!isFeatureFlagEnabled(process.env.FEATURE_FLAG_UPLOAD_HTTP_TRIGGER_ENABLED)){
+        context.log(`http trigger upload disabled`);
+        return
+    }
+    context.log(`http trigger upload enabled`);
 
     console.log(req.headers);
 

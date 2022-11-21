@@ -85,15 +85,19 @@ export async function processOrgList(
       if (error === undefined) {
         log("new org list");
         log(data);
-        list = data;
+        orgList = data;
       } else {
         // no-op
         log("default org list");
+        orgList = list;
       }
     }
   }
 
-  if (!orgList || orgList.length === 0) return;
+  if (!orgList || orgList.length === 0){
+    log("no items in orgList");
+    return;
+  } 
 
   let dataSet = [];
   for await (let orgName of orgList) {
