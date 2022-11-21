@@ -1,5 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { processOrgList } from "../lib/save_data_to_storage";
+import { isFeatureFlagEnabled } from "../shared/feature-flag";
 
 import HTTP_CODES from "http-status-enum";
 
@@ -9,9 +10,18 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
   try {
     
-    context.log(`timer_repos begin`);
-    await processOrgList(context.log);
-    context.log(`timer_repos end`);
+    context.log(`http_repos begin`);
+
+    if(isFeatureFlagEnabled(process.env.FEATURE_FLAG_REPOS_HTTP_TRIGGER_ENABLED)){
+      context.log(`http trigger enabled`);
+
+      const orgList = context?.req?.body?.orgList || [];
+      const insertIntoDb = isFeatureFlagEnabled(process.env.FEATURE_FLAG_INSERT_INTO_DB_ENABLED);
+
+      await processOrgList(orgList, insertIntoDb, context.log);
+    } else {
+        context.log(`http trigger disabled`);
+    }
 
   } catch (err) {
 

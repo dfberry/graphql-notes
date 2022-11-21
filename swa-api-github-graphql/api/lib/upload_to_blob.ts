@@ -54,6 +54,7 @@ export async function uploadToBlob(containerName, directoryname, fileName, jsonD
     }
 
     const blobUrl = await createBlobFromString(containerClient, fileName, JSON.stringify(jsonData), upLoadOptions);
+    log(blobUrl);
     
     return blobUrl;
 }
