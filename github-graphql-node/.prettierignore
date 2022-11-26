@@ -1,0 +1,6 @@
+src/generated
+dist
+data
+.vscode
+.devcontainer
+node_modules
